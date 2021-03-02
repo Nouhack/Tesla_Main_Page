@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Center, VStack, Flex, Text, Button, HStack } from "@chakra-ui/react";
+import { Center, VStack, Flex, Text, Button, Stack } from "@chakra-ui/react";
 import styles from "../styles/index.module.css";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -28,6 +28,7 @@ export default function ViewElements(props) {
       >
         <Image
           onLoad={() => setshowContent(true)}
+          //   priority={true}
           alt="Mountains"
           src={props.imagename}
           layout="fill"
@@ -51,19 +52,22 @@ export default function ViewElements(props) {
               <VStack
                 w="100%"
                 h="100%"
-                spacing={70}
+                spacing={100}
                 //  bg="black"
                 justifyContent="center"
               >
                 <motion.div
-                  style={{ position: "fixed" }}
+                  style={{
+                    position: "fixed",
+                  }}
                   initial={{ y: 50, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 1 }}
                 >
                   <Text
+                    fontSize={{ base: "24px", md: "30px", lg: "40px" }}
                     opacity={props.opac}
-                    fontSize="40px"
+                    //  fontSize="40px"
                     fontFamily="Montserrat, sans-serif"
                     fontWeight="bold"
                     color="#393c41"
@@ -93,7 +97,8 @@ export default function ViewElements(props) {
                         fontWeight: "bold",
                         textDecoration: "underline",
                       }}
-                      href="www.google.com"
+                      href="https://github.com/Nouhack"
+                      target="_blank"
                     >
                       Touchless Delivery
                     </a>{" "}
@@ -110,7 +115,12 @@ export default function ViewElements(props) {
               pb={25}
             >
               {" "}
-              <HStack spacing={7} mb={14} pos="fixed">
+              <Stack
+                spacing={7}
+                direction={{ base: "column", md: "row" }}
+                mb={14}
+                pos="fixed"
+              >
                 <motion.div
                   initial={{ x: -50, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -146,7 +156,7 @@ export default function ViewElements(props) {
                     Existing Inventory
                   </Button>
                 </motion.div>
-              </HStack>
+              </Stack>
               {props.showArrow && (
                 <motion.div
                   initial={{ opacity: 0 }}
