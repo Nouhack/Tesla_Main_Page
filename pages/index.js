@@ -1,65 +1,147 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-
+import React from "react";
+import Header from "../components/Header";
+import ViewElements from "../components/ViewElements";
+import { useState } from "react";
+import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  Input,
+  Button,
+} from "@chakra-ui/react";
 export default function Home() {
+  const pp = React.createRef();
+  const [title, settitle] = useState("Model S");
+  const [position, setposition] = useState(0);
+  const [opac, setopac] = useState(1);
+  const [showArrow, setshowArrow] = useState(true);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = React.useRef();
+  /*
+  useEffect(() => {
+    effect
+    
+  }, [position])
+*/
+
+  const changeTitle = (pos) => {
+    console.log("hadi position : ", window.innerHeight - pos * 3);
+
+    if (
+      parseInt(pos) <
+      parseInt(window.innerHeight) - parseInt(window.innerHeight) / 3
+    ) {
+      setshowArrow(true);
+      settitle("Model S");
+      setopac((window.innerHeight - pos * 3) / window.innerHeight);
+    } else if (
+      parseInt(pos) <
+      parseInt(window.innerHeight) * 2 - parseInt(window.innerHeight) / 3
+    ) {
+      settitle("Model Y");
+      setshowArrow(false);
+      setopac((window.innerHeight * 4 - pos * 3) / window.innerHeight);
+    } else if (
+      parseInt(pos) <
+      parseInt(window.innerHeight) * 3 - parseInt(window.innerHeight) / 3
+    ) {
+      settitle("Model 3");
+      setshowArrow(false);
+
+      setopac((window.innerHeight * 7 - pos * 3) / window.innerHeight);
+    } else if (
+      parseInt(pos) <
+      parseInt(window.innerHeight) * 4 - parseInt(window.innerHeight) / 3
+    ) {
+      settitle("Model X");
+      setshowArrow(false);
+
+      setopac((window.innerHeight * 10 - pos * 3) / window.innerHeight);
+    } else if (
+      parseInt(pos) <
+      parseInt(window.innerHeight) * 5 - parseInt(window.innerHeight) / 3
+    ) {
+      settitle("Lowest Cost Solar Panels in America");
+      setshowArrow(false);
+
+      setopac((window.innerHeight * 13 - pos * 3) / window.innerHeight);
+    } else if (
+      parseInt(pos) <
+      parseInt(window.innerHeight) * 6 - parseInt(window.innerHeight) / 3
+    ) {
+      settitle("Solar for New Roofs");
+      setshowArrow(false);
+
+      setopac((window.innerHeight * 16 - pos * 3) / window.innerHeight);
+    } else if (
+      parseInt(pos) <
+      parseInt(window.innerHeight) * 7 - parseInt(window.innerHeight) / 3
+    ) {
+      settitle("Accessories");
+      setshowArrow(false);
+
+      setopac((window.innerHeight * 19 - pos * 3) / window.innerHeight);
+    }
+  };
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <div
+      onScroll={() => changeTitle(pp.current.scrollTop)}
+      ref={pp}
+      style={{
+        position: "relative",
+        scrollSnapType: "y mandatory",
+        maxHeight: "100vh",
+        overflowY: "scroll",
+        width: "calc(100vw - (100vw - 100%))",
+      }}
+    >
+      <ViewElements
+        imagename="/car1.jpg"
+        title={title}
+        opac={opac}
+        showArrow={showArrow}
+      >
+        <Header reference={btnRef} func={onOpen} />
+      </ViewElements>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <ViewElements imagename="/car2.jpg" title={title} />
+      <ViewElements imagename="/car3.jpg" title={title} />
+      <ViewElements imagename="/car4.jpg" title={title} />
+      <ViewElements imagename="/house.jpg" title={title} />
+      <ViewElements imagename="/house2.jpg" title={title} />
+      <ViewElements imagename="/headset.jpg" title={title} />
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        onClose={onClose}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay>
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>Create your account</DrawerHeader>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+            <DrawerBody>
+              <Input placeholder="Type here..." />
+            </DrawerBody>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+            <DrawerFooter>
+              <Button variant="outline" mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button color="blue">Save</Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </DrawerOverlay>
+      </Drawer>
     </div>
-  )
+  );
 }
